@@ -1,0 +1,27 @@
+{
+  "name": "denon-avr",
+  "version": "0.0.1",
+  "description": "Module for two way communication with Denon AVRs",
+  "main": "./lib/apc.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/phillipsnick/denon-avr.git"
+  },
+  "keywords": [
+    "denon",
+    "avr",
+    "amp"
+    "rs232",
+    "remote",
+    "telnet"
+  ],
+  "author": "Nick Phillips <nick@linkstudios.co.uk>",
+  "license": "MIT",
+  "dependencies": {
+    "serialport": "~1.4.5",
+    "telnet": "0.0.1"
+  }
+}
