@@ -13,7 +13,7 @@
   "keywords": [
     "denon",
     "avr",
-    "amp"
+    "amp",
     "rs232",
     "remote",
     "telnet"
@@ -21,7 +21,6 @@
   "author": "Nick Phillips <nick@linkstudios.co.uk>",
   "license": "MIT",
   "dependencies": {
-    "serialport": "~1.4.5",
-    "telnet": "0.0.1"
+    "telnet-client": "0.0.6"
   }
 }
