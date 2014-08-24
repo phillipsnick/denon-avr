@@ -5,17 +5,16 @@ var avr = new denon(new denon.transport.telnet(config));
 
 avr.connect(function() {
   console.log('Connected');
-  avr.getPowerState(function(err, state) {
+  avr.setPowerState(true, function(err, state) {
     if (err) {
       console.log(err.toString());
       return;
     }
 
-    console.log('The current power state is', state ? 'ON' : 'OFF');
+    console.log('The current power state is', state);
   });
 });
 
-// close the connection and node process after 2 seconds
 setTimeout(function() {
   avr.getConnection().destroy();
   process.exit(0);
