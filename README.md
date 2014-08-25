@@ -19,16 +19,27 @@ npm install denon-avr
 
 ## Usage
 
+### Via Telnet
+
 ```javascript
 var denon = require('denon-avr');
 
-var avr = new denon({
-  host: '' // IP or hostname
+var avr = new denon(new denon.transports.telnet({
+  host: '' // IP address or hostname
+}));
+
+avr.connect(function() {
+  // now connected
 });
 ```
 
 
 ### Methods
+
+...
+
+
+### Events
 
 ...
 
