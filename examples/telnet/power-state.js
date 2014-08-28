@@ -20,3 +20,10 @@ setTimeout(function() {
   avr.getConnection().destroy();
   process.exit(0);
 }, 2000);
+
+process.on('SIGINT', function() {
+  console.log("Caught interrupt signal");
+
+  avr.getConnection().destroy();
+  process.exit(0);
+});
