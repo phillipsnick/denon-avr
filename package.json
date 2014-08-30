@@ -21,7 +21,6 @@
   "author": "Nick Phillips <nick@linkstudios.co.uk>",
   "license": "MIT",
   "dependencies": {
-    "telnet-client": "0.0.6",
-    "async": "~0.9.0"
+    "telnet-client": "https://github.com/phillipsnick/node-telnet-client/archive/v0.1.0.tar.gz"
   }
 }

@@ -6,13 +6,13 @@ var avr = new denon(new denon.transports.telnet(config));
 avr.connect();
 avr.on('connect', function() {
   console.log('Connected');
-  avr.getPowerState(function(err, state) {
+  avr.setMuteState(false, function(err, state) {
     if (err) {
       console.log(err.toString());
       return;
     }
 
-    console.log('The current power state is', state);
+    console.log('The current mute state is', state);
   });
 });
 

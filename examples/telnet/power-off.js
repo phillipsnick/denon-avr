@@ -3,7 +3,8 @@ var denon = require('../../lib/app')
 
 var avr = new denon(new denon.transports.telnet(config));
 
-avr.connect(function() {
+avr.connect();
+avr.on('connect', function() {
   console.log('Connected');
   avr.setPowerState(false, function(err, state) {
     if (err) {

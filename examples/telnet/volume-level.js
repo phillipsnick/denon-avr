@@ -6,17 +6,16 @@ var avr = new denon(new denon.transports.telnet(config));
 avr.connect();
 avr.on('connect', function() {
   console.log('Connected');
-  avr.getPowerState(function(err, state) {
+  avr.getVolumeLevel(function(err, volume) {
     if (err) {
       console.log(err.toString());
       return;
     }
 
-    console.log('The current power state is', state);
+    console.log('The volume is', volume, '/', avr.parseVolume(volume), 'dB');
   });
 });
 
-// close the connection and node process after 2 seconds
 setTimeout(function() {
   avr.getConnection().destroy();
   process.exit(0);
