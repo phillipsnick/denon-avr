@@ -3,23 +3,26 @@
 Denon AVR remote control via RS232 or IP (Telnet) supporting two way communication
 
 
-## RS232 Interface
-
-This is currently a work in progress. See issue #1
-
-__I accept no responsibility for any damage done to your computer or equipment__
-
-
 ## Installation
 
 ```
 npm install denon-avr
 ```
 
+### RS232 Interface
+
+This is currently a work in progress. See issue #1
+
+__I accept no responsibility for any damage done to your computer or equipment__
+
 
 ## Usage
 
 ### Via Telnet
+
+The telnet transport needs to be passed onto the denon-avr module.
+
+__Example__
 
 ```js
 var denon = require('denon-avr');
@@ -34,33 +37,40 @@ avr.on('connect', function() {
 });
 ```
 
+### Via RS232
+
+__TODO__
+
+```js
+```
+
 
 ## Methods
 
 ### General
 
-#### connect - Connect via the provided transport
+#### connect()
+
+Connect via the provided transport.
+
+Note, this method provides no callback, please see the 'connect' event.
+
+__Example__
 
 ```js
 avr.connect();
 ```
 
-This method provides no callback, please see the 'connect' event.
 
+#### send(command, prefix, callback, error)
 
-#### send - Generic send via provided transport
-
-```js
-avr.send(command, prefix, callback, error);
-```
-
-Simple method to reduce code duplication throughout the library.
+Generic send via provided transport aimed to reduce code duplication throughout the library.
 
 __Arguments__
 
 * `command` - String to be sent via the provided transport
-* `prefix` - The expected response prefix
-* `callback(err, secondParam)` - Callback function for error/response handling
+* `prefix` - The expected response prefix either as a string (eg. 'MV) or a RegExp instance
+* `callback(err, response)` - Callback function for error/response handling
 * `error` - Error string provided to the callback
 
 __Example__
@@ -79,28 +89,32 @@ avr.send('PW?', 'PW', function(err, state) {
 ```
 
 
-#### parseData - Parse the data received from an event on the AVR
+#### parseData(data)
+
+Parse the data received from an event on the AVR.
 
 __TODO__
+
+__Arguments__
+
+* `data` - ??
+
+__Example__
 
 ```js
 avr.parseData(data);
 ```
 
 
-#### parseResponse - Parse the response provided when sending a command
+#### parseResponse(data, prefix, callback, error);
 
-```js
-avr.parseResponse(data, prefix, callback, error);
-```
-
-Another simple method to reduce code duplication throughout the library, ideally this shouldn't be used outside of the library.
+Parse the response provided when sending a command, another simple method to reduce code duplication throughout the library, ideally this shouldn't be used outside of the library.
 
 __Arguments__
 
 * `data` - String received from the AVR
-* `prefix` - The expected response prefix
-* `callback(err, secondParam)` - Callback function for error/response handling
+* `prefix` - The expected response prefix either as a string (eg. 'MV) or a RegExp instance
+* `callback(err, response)` - Callback function for error/response handling
 * `error` - Error string provided to the callback
 
 __Example__
@@ -128,11 +142,9 @@ avr.transport.send('PW?', function(err, response) {
 ```
 
 
-#### getTransport - Get the transport object provided when creating the module
+#### getTransport()
 
-```js
-avr.getTransport();
-```
+Get the transport object provided when creating the module.
 
 __Example__
 
@@ -141,11 +153,9 @@ var transport = avr.getTransport();
 ```
 
 
-#### getConnection - Get the connection created by the transport
+#### getConnection()
 
-```js
-avr.getConnection();
-```
+Get the connection created by the transport.
 
 __Example__
 
@@ -154,15 +164,21 @@ var connection = avr.getConnection();
 ```
 
 
-#### parseAsciiVolume - Parse the volume provided in ASCII format to dB
+#### parseAsciiVolume(volume, zero)
 
-This converts the ASCII value from the Denon AVR to a usable dB format. 
+Parse the volume provided in ASCII format to dB as per the Denon documentation.
 
 For example the master volume would be returned in ASCII as followed:
 
 |ASCII Value|dB Value|
+|-----------|--------|
 |80|0dB|
 |995|-80.5dB|
+
+__Arguments__
+
+* `volume` - ASCII value (eg 995 or 99)
+* `zero` - Optional value to calculate the zero position. Defaults to 80 to support master volume, provide 50 if dealing with channel volumes
 
 __Example__
 
@@ -175,9 +191,14 @@ console.log(avr.parseAsciiVolume(volume));
 ```
 
 
-#### parseDbVolume - Parse a dB volume into ASCII format for sending back to the AVR
+#### parseDbVolume(volume, zero)
 
-Convert an dB value back into ASCII.
+Parse a dB volume into ASCII format for sending back to the AVR.
+
+__Arguments__
+
+* `volume` - Numeric value containing the volume in dB (eg -80.5)
+* `zero` - Optional value to calculate the zero position. Defaults to 80 to support master volume, provide 50 if dealing with channel volumes
 
 __Example__
 
@@ -187,99 +208,236 @@ var volume = -60.5;
 console.log(avr.parseDbVolume(volume));
 
 // output: 195
+```
 
 
 ### AVR Specific
 
 These are methods aimed at controlling or querying the AVRs specific functions.
 
+All examples below assume a connection has been created to the AVR as per the examples within usage.
 
-#### setPowerState - Set the power state of the AVR
+#### setPowerState(state, callback)
 
-```js
-avr.setPowerState(bool, function(err, state) {});
-```
+Set the power state of the AVR.
 
-The state variable will be 'ON' or 'OFF'
+Note, that if you try to set the same state the AVR is currently, no response is returned.
 
+__Arguments__
 
-#### getPowerState - Get the current power state
+* `state` - bool, true to power on, false to power of
+* `callback(err, volume)` - Callback on completion, `volume` to contain ASCII volume level
 
-```js
-avr.getPowerState(function(err, state) {});
-```
+__Example__
 
-The state variable will be 'ON' or 'OFF'
-
-
-#### setVolumeUp - Increase the master volume by 0.5dB
+Power on the AVR.
 
 ```js
-avr.setVolumeUp(function(err, volume) {});
+avr.setPowerState(true, function(err, state) {
+  if(err) {
+    console.log(err);
+    return;
+  }
+  
+  console.log('The power state is now:', state);
+});
 ```
 
-The volume variable will be the new volume level in ASCII as per Denon documentation.
 
+#### getPowerState(callback)
 
-#### setVolumeDown - Decrease the master volume by 0.5dB
+Get the current power state.
+
+__Arguments__
+
+* `callback(err, state)` - Callback on completion, `state` to contain either ON/OFF
+
+__Example__
 
 ```js
-avr.setVolumeDown(function(err, volume) {});
+avr.getPowerState(function(err, state) {
+  if(err) {
+      console.log(err);
+      return;
+    }
+    
+    console.log('The power state is:', state);
+});
 ```
 
-The volume variable inside the callback will be the new volume level in ASCII as per Denon documentation.
 
+#### setVolumeUp(callback)
 
-#### setVolumeAscii - Set the master volume level using ASCII values
+Increase the master zone volume by 0.5dB.
+
+__Arguments__
+
+* `callback(err, volume)` - Callback on completion, `volume` to provide master zone volume in ASCII format
+
+__Example__
 
 ```js
-avr.setVolumeAscii(volume, function(err, volume) {});
+avr.setVolumeUp(function(err, volume) {
+  if (err) {
+    console.log(err.toString());
+    return;
+  }
+
+  console.log('The volume is now', volume, '/', avr.parseAsciiVolume(volume), 'dB');
+});
 ```
 
-The volume variable inside the callback will be the new volume level in ASCII as per Denon documentation.
 
+#### setVolumeDown(callback)
 
-#### setVolumeDb - Set the master volume level using dB values
+Decrease the master zone volume by 0.5dB.
 
-````js
-avr.setVolumeDb(volume, function(err, volume( {});
+__Arguments__
 
+* `callback(err, volume)` - Callback on completion, `volume` to provide master zone volume in ASCII format
 
-#### getVolumeLevel - Get the master volume level
+__Example__
 
 ```js
-avr.getVolumeLevel(function(err, volume) {});
+avr.setVolumeDown(function(err, volume) {
+  if (err) {
+    console.log(err.toString());
+    return;
+  }
+
+  console.log('The volume is now', volume, '/', avr.parseAsciiVolume(volume), 'dB');
+});
 ```
 
-The volume variable inside the callback will be the new volume level in ASCII as per Denon documentation.
 
+#### setVolumeAscii(volume, callback)
 
-#### setMute - Set the master volume mute state
+Set the master zone volume level using ASCII an value.
+
+__Arguments__
+
+* `volume` - Volume in ASCII format
+* `callback(err, volume)` - Callback on completion, `volume` to provide master zone volume in ASCII format
+
+__Example__
+
+Set the volume to -80.0dB
 
 ```js
-avr.setMuteState(bool, function(err, state) {});
+avr.setVolumeAscii('00', function(err, volume) {
+  if (err) {
+    console.log(err.toString());
+    return;
+  }
+
+  console.log('The volume is now', volume, '/', avr.parseAsciiVolume(volume), 'dB');
+});
 ```
 
-The state variable will be 'ON' or 'OFF'
 
+#### setVolumeDb(volume, callback)
 
-#### getMuteState - Get the master volume mute state
+Set the master zone volume level using dB values.
+
+__Arguments__
+
+* `volume` - Volume in ASCII format
+* `callback(err, volume)` - Callback on completion, `volume` to provide master zone volume in ASCII format
+
+__Example__
+
+Set the volume to -80.5dB
 
 ```js
-avr.getMuteState(function(err, state) {});
+avr.setVolumeDb(-80.5, function(err, volume) {
+  if (err) {
+    console.log(err.toString());
+    return;
+  }
+
+  console.log('The volume is now', volume, '/', avr.parseAsciiVolume(volume), 'dB');
+});
 ```
 
-The state variable will be 'ON' or 'OFF'
 
+#### getVolumeLevel(callback)
 
-#### getSource - Get the current source
+Get the master zone volume level.
+
+__Arguments__
+
+* `callback(err, volume)` - Callback on completion, `volume` to provide master zone volume in ASCII format
+
+__Example__
 
 ```js
-avr.getSource(function(err, source) {});
+avr.setVolumeAscii(function(err, volume) {
+  if (err) {
+    console.log(err.toString());
+    return;
+  }
+
+  console.log('The volume is', volume, '/', avr.parseAsciiVolume(volume), 'dB');
+});
 ```
 
-The callback source variable contains the current source name.
 
+#### setMute(state, callback)
+
+Set the master zone mute state.
+
+Note, the callback may provide an error if you attempt to set the state to the current mute state.
+
+__Arguments__
+
+* `state` - bool to enable or disable mute state
+* `callback(err, state)` - Callback on completion, `state` to provide new mute state as ON/OFF
+
+__Example__
+
+Enable mute
+
+```js
+avr.setMute(true, function(err, state) {
+  if (err) {
+    console.log(err.toString());
+    return;
+  }
+
+  console.log('The current mute state is', state);
+});
+```
+
+
+#### getMuteState(callback)
+
+Get the master volume mute state
+
+__Arguments__
+
+* `callback(err, state)` - Callback on completion, `state` to provide mute state as ON/OFF
+
+__Example__
+
+Enable mute
+
+```js
+avr.getMuteState(true, function(err, state) {
+  if (err) {
+    console.log(err.toString());
+    return;
+  }
+
+  console.log('The current mute state is', state);
+});
+```
+
+
+#### getSource(callback)
+
+Get the current master zone source.
+
+Results returned directly from AVR in the following format:
 * PHONO
 * CD
 * TUNER
@@ -300,10 +458,29 @@ The callback source variable contains the current source name.
 * SERVER
 * USB/IPOD
 
+__Arguments__
+
+* `callback(err, source)` - Callback on completion, `source` to provide source name as above
+
+__Example__
+
+```js
+avr.getSource(function(err, source) {
+  if (err) {
+    console.log(err.toString());
+    return;
+  }
+
+  console.log('The current source is', source);
+});
+```
+
 
 ### Events
 
-...
+__TODO__
+
+See issue #5 ...
 
 
 ## Notes
