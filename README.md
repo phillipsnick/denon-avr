@@ -5,7 +5,7 @@ Denon AVR remote control via RS232 or IP (Telnet) supporting two way communicati
 
 ## Installation
 
-```
+```bash
 npm install denon-avr
 ```
 
@@ -34,6 +34,7 @@ var avr = new denon(new denon.transports.telnet({
 
 avr.on('connect', function() {
   // now connected
+  // all commands to be placed here
 });
 ```
 
@@ -49,6 +50,8 @@ var denon = require('denon-avr');
 
 
 ## Methods
+
+A number of examples can be found within the [examples directory](https://github.com/phillipsnick/denon-avr/tree/master/examples).
 
 ### General
 
