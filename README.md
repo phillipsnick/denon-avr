@@ -154,9 +154,9 @@ var connection = avr.getConnection();
 ```
 
 
-#### parseVolume - Parse the volume provided in ASCII format
+#### parseAsciiVolume - Parse the volume provided in ASCII format to dB
 
-The Denon AVR converts volume from ASCII format to a usable dB format. 
+This converts the ASCII value from the Denon AVR to a usable dB format. 
 
 For example the master volume would be returned in ASCII as followed:
 
@@ -167,11 +167,26 @@ For example the master volume would be returned in ASCII as followed:
 __Example__
 
 ```js
-var volume = 995;
-console.log(avr.parseVolume(995);
+var volume = '995';
+
+console.log(avr.parseAsciiVolume(volume));
+
+// output: -80.5
 ```
 
-__TODO__
+
+#### parseDbVolume - Parse a dB volume into ASCII format for sending back to the AVR
+
+Convert an dB value back into ASCII.
+
+__Example__
+
+```js
+var volume = -60.5;
+
+console.log(avr.parseDbVolume(volume));
+
+// output: 195
 
 
 ### AVR Specific
@@ -215,13 +230,19 @@ avr.setVolumeDown(function(err, volume) {});
 The volume variable inside the callback will be the new volume level in ASCII as per Denon documentation.
 
 
-#### setVolumeLevel - Set the master volume level
+#### setVolumeAscii - Set the master volume level using ASCII values
 
 ```js
-avr.setVolumeLevel(volume, function(err, volume) {});
+avr.setVolumeAscii(volume, function(err, volume) {});
 ```
 
 The volume variable inside the callback will be the new volume level in ASCII as per Denon documentation.
+
+
+#### setVolumeDb - Set the master volume level using dB values
+
+````js
+avr.setVolumeDb(volume, function(err, volume( {});
 
 
 #### getVolumeLevel - Get the master volume level

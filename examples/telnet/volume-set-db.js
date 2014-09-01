@@ -6,7 +6,7 @@ var avr = new denon(new denon.transports.telnet(config));
 avr.connect();
 avr.on('connect', function() {
   console.log('Connected');
-  avr.getVolumeLevel(function(err, volume) {
+  avr.setVolumeDb(-60.5, function(err, volume) {
     if (err) {
       console.log(err.toString());
       return;

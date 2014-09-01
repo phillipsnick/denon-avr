@@ -12,7 +12,7 @@ avr.on('connect', function() {
       return;
     }
 
-    console.log('The volume is', volume, '/', avr.parseVolume(volume), 'dB');
+    console.log('The volume is', volume, '/', avr.parseAsciiVolume(volume), 'dB');
   });
 });
 
