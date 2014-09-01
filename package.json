@@ -1,6 +1,6 @@
 {
   "name": "denon-avr",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Module for two way communication with Denon AVRs",
   "main": "./lib/apc.js",
   "scripts": {
@@ -21,6 +21,6 @@
   "author": "Nick Phillips <nick@linkstudios.co.uk>",
   "license": "MIT",
   "dependencies": {
-    "telnet-client": "https://github.com/phillipsnick/node-telnet-client/archive/v0.1.0.tar.gz"
+    "telnet-client": "https://github.com/phillipsnick/node-telnet-client/archive/v0.1.1.tar.gz"
   }
 }
