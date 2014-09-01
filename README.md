@@ -1,6 +1,6 @@
 # Denon Remote control
 
-Denon AVR remote control via RS232 or IP (Telnet) supporting two way communication
+Denon AVR remote control via RS232 or IP (Telnet) supporting two way communication.
 
 
 ## Installation
@@ -13,7 +13,7 @@ npm install denon-avr
 
 This is currently a work in progress. See issue #1
 
-__I accept no responsibility for any damage done to your computer or equipment__
+__I accept no responsibility for any damage done to your computer or equipment.__
 
 
 ## Usage
@@ -41,7 +41,10 @@ avr.on('connect', function() {
 
 __TODO__
 
+__Example__
+
 ```js
+var denon = require('denon-avr');
 ```
 
 
@@ -94,6 +97,8 @@ avr.send('PW?', 'PW', function(err, state) {
 Parse the data received from an event on the AVR.
 
 __TODO__
+
+See issue #5
 
 __Arguments__
 
