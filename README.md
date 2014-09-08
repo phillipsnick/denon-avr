@@ -67,6 +67,7 @@ __Example__
 avr.connect();
 ```
 
+---------------------------------------
 
 #### send(command, prefix, callback, error)
 
@@ -94,6 +95,7 @@ avr.send('PW?', 'PW', function(err, state) {
 }, 'Unable to get the power state');
 ```
 
+---------------------------------------
 
 #### parseData(data)
 
@@ -113,6 +115,7 @@ __Example__
 avr.parseData(data);
 ```
 
+---------------------------------------
 
 #### parseResponse(data, prefix, callback, error);
 
@@ -149,6 +152,7 @@ avr.transport.send('PW?', function(err, response) {
 });
 ```
 
+---------------------------------------
 
 #### getTransport()
 
@@ -160,6 +164,7 @@ __Example__
 var transport = avr.getTransport();
 ```
 
+---------------------------------------
 
 #### getConnection()
 
@@ -171,6 +176,7 @@ __Example__
 var connection = avr.getConnection();
 ```
 
+---------------------------------------
 
 #### parseAsciiVolume(volume, zero)
 
@@ -198,6 +204,7 @@ console.log(avr.parseAsciiVolume(volume));
 // output: -80.5
 ```
 
+---------------------------------------
 
 #### parseDbVolume(volume, zero)
 
@@ -251,6 +258,7 @@ avr.setPowerState(true, function(err, state) {
 });
 ```
 
+---------------------------------------
 
 #### getPowerState(callback)
 
@@ -273,6 +281,7 @@ avr.getPowerState(function(err, state) {
 });
 ```
 
+---------------------------------------
 
 #### setVolumeUp(callback)
 
@@ -295,6 +304,7 @@ avr.setVolumeUp(function(err, volume) {
 });
 ```
 
+---------------------------------------
 
 #### setVolumeDown(callback)
 
@@ -317,6 +327,7 @@ avr.setVolumeDown(function(err, volume) {
 });
 ```
 
+---------------------------------------
 
 #### setVolumeAscii(volume, callback)
 
@@ -342,6 +353,7 @@ avr.setVolumeAscii('00', function(err, volume) {
 });
 ```
 
+---------------------------------------
 
 #### setVolumeDb(volume, callback)
 
@@ -367,6 +379,7 @@ avr.setVolumeDb(-80.5, function(err, volume) {
 });
 ```
 
+---------------------------------------
 
 #### getVolumeLevel(callback)
 
@@ -389,6 +402,7 @@ avr.setVolumeAscii(function(err, volume) {
 });
 ```
 
+---------------------------------------
 
 #### setMute(state, callback)
 
@@ -416,6 +430,7 @@ avr.setMute(true, function(err, state) {
 });
 ```
 
+---------------------------------------
 
 #### getMuteState(callback)
 
@@ -440,6 +455,7 @@ avr.getMuteState(true, function(err, state) {
 });
 ```
 
+---------------------------------------
 
 #### getSource(callback)
 
