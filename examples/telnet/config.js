@@ -1,4 +1,4 @@
 module.exports = {
-  host: '10.0.10.11',
+  host: '192.168.2.113',
   debug: true
 }
