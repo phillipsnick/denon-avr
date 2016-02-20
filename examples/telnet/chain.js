@@ -4,9 +4,19 @@ var denon = require('../../lib/app')
 var avr = new denon(new denon.transports.telnet(config));
 
 avr.connect();
-avr.on('connect', function() {
+avr.on('connect', function () {
   console.log('Connected');
-  avr.setMuteState(false, function(err, state) {
+
+  avr.setMuteState(true, function (err, state) {
+    if (err) {
+      console.log(err.toString());
+      return;
+    }
+
+    console.log('The current mute state is', state);
+  });
+
+  avr.setMuteState(false, function (err, state) {
     if (err) {
       console.log(err.toString());
       return;
@@ -16,13 +26,13 @@ avr.on('connect', function() {
   });
 });
 
-// close the connection and node process after 2 seconds
-setTimeout(function() {
+// close the connection and node process after 10 seconds
+setTimeout(function () {
   avr.getConnection().destroy();
   process.exit(0);
-}, 2000);
+}, 10000);
 
-process.on('SIGINT', function() {
+process.on('SIGINT', function () {
   console.log("Caught interrupt signal");
 
   avr.getConnection().destroy();
