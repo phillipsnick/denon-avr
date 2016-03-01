@@ -4,10 +4,10 @@ var denon = require('../../lib/app')
 var avr = new denon(new denon.transports.telnet(config));
 
 avr.connect();
-avr.on('connect', function () {
+avr.on('connect', function() {
   console.log('Connected');
   // set the volume to -80.0dB
-  avr.setVolumeAscii("00", function (err, volume) {
+  avr.setVolumeAscii("00", function(err, volume) {
     if (err) {
       console.log(err.toString());
       return;
@@ -17,12 +17,12 @@ avr.on('connect', function () {
   });
 });
 
-setTimeout(function () {
+setTimeout(function() {
   avr.getConnection().destroy();
   process.exit(0);
 }, 2000);
 
-process.on('SIGINT', function () {
+process.on('SIGINT', function() {
   console.log("Caught interrupt signal");
 
   avr.getConnection().destroy();
