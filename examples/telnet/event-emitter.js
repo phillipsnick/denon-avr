@@ -4,11 +4,11 @@ var denon = require('../../lib/app')
 var avr = new denon(new denon.transports.telnet(config));
 
 avr.connect();
-avr.on('connect', function() {
+avr.on('connect', function () {
   console.log('Connected');
 });
 
-process.on('SIGINT', function() {
+process.on('SIGINT', function () {
   console.log("Caught interrupt signal");
 
   avr.getConnection().destroy();
